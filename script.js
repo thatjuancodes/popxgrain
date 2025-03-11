@@ -13,63 +13,49 @@ header.classList.add('nav-visible');
 
 // Function to smoothly scroll to about section
 function scrollToAbout() {
-    isAutoScrolling = true;
+    if (isTransitioningToAbout) return;
+    
     isTransitioningToAbout = true;
-    isTransitioningToHero = false;
+    const aboutSection = document.getElementById('about');
+    aboutSection.scrollIntoView({ behavior: 'smooth' });
     
-    const headerHeight = header.offsetHeight;
-    const targetPosition = about.offsetTop - headerHeight;
-    
-    window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-    });
-
-    // Reset auto-scrolling flag after animation
     setTimeout(() => {
-        isAutoScrolling = false;
-        isInHeroSection = false;
         isTransitioningToAbout = false;
+        isInHeroSection = false;
     }, 1000);
 }
 
 // Function to smoothly scroll to hero section
 function scrollToHero() {
-    isAutoScrolling = true;
-    isTransitioningToHero = true;
-    isTransitioningToAbout = false;
+    if (isTransitioningToHero) return;
     
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-
-    // Reset auto-scrolling flag after animation
+    isTransitioningToHero = true;
+    const heroSection = document.getElementById('hero');
+    heroSection.scrollIntoView({ behavior: 'smooth' });
+    
     setTimeout(() => {
-        isAutoScrolling = false;
-        isInHeroSection = true;
         isTransitioningToHero = false;
+        isInHeroSection = true;
     }, 1000);
 }
 
 // Function to update header background
 function updateHeaderBackground() {
-    const currentScroll = window.pageYOffset;
+    const scrollPosition = window.scrollY;
     
-    // Add/remove background based on scroll position
-    if (currentScroll > 0) {
+    if (scrollPosition > 50) {
         header.classList.add('with-background');
     } else {
         header.classList.remove('with-background');
     }
 
     // Update hero section state
-    if (currentScroll <= 50) {
+    if (scrollPosition <= 50) {
         isInHeroSection = true;
     }
 
     // Hide header in hero section
-    if (currentScroll <= heroHeight - 100) {
+    if (scrollPosition <= heroHeight - 100) {
         header.classList.add('nav-hidden');
         return;
     }
@@ -82,7 +68,7 @@ function updateHeaderBackground() {
     }
 
     // Manual scrolling behavior
-    if (currentScroll > lastScroll) {
+    if (scrollPosition > lastScroll) {
         // Scrolling down - show header
         header.classList.remove('nav-hidden');
         header.classList.add('nav-visible');
@@ -92,27 +78,26 @@ function updateHeaderBackground() {
         header.classList.remove('nav-visible');
     }
 
-    lastScroll = currentScroll;
+    lastScroll = scrollPosition;
 }
+
+// Handle scroll arrow click
+document.querySelector('.scroll-arrow').addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollToAbout();
+});
 
 // Handle wheel events for scrolling between hero and about
 window.addEventListener('wheel', (e) => {
-    // Prevent any scroll if transitioning
     if (isTransitioningToAbout || isTransitioningToHero) {
         e.preventDefault();
         return;
     }
 
-    const currentScroll = window.pageYOffset;
-    const isNearHeroAboutBoundary = currentScroll < heroHeight + 100 && currentScroll > 0;
-
-    // If in hero section and scrolling down, transition to about
     if (isInHeroSection && e.deltaY > 0) {
         e.preventDefault();
         scrollToAbout();
-    }
-    // If near hero-about boundary and scrolling up, transition to hero
-    else if (isNearHeroAboutBoundary && e.deltaY < 0) {
+    } else if (!isInHeroSection && window.scrollY === 0 && e.deltaY < 0) {
         e.preventDefault();
         scrollToHero();
     }
@@ -125,38 +110,22 @@ window.addEventListener('touchstart', (e) => {
 });
 
 window.addEventListener('touchmove', (e) => {
-    // Prevent any touch move if transitioning
     if (isTransitioningToAbout || isTransitioningToHero) {
         e.preventDefault();
         return;
     }
 
-    const currentScroll = window.pageYOffset;
-    const isNearHeroAboutBoundary = currentScroll < heroHeight + 100 && currentScroll > 0;
-    const touchY = e.touches[0].clientY;
-    const isScrollingUp = touchY > touchStartY;
-    const isScrollingDown = touchY < touchStartY;
+    const touchCurrentY = e.touches[0].clientY;
+    const deltaY = touchStartY - touchCurrentY;
 
-    if ((isInHeroSection && isScrollingDown) || (isNearHeroAboutBoundary && isScrollingUp)) {
+    if (isInHeroSection && deltaY > 0) {
         e.preventDefault();
-        if (isScrollingDown) {
-            scrollToAbout();
-        } else {
-            scrollToHero();
-        }
+        scrollToAbout();
+    } else if (!isInHeroSection && window.scrollY === 0 && deltaY < 0) {
+        e.preventDefault();
+        scrollToHero();
     }
 }, { passive: false });
-
-// Prevent scroll during transition
-window.addEventListener('scroll', (e) => {
-    if (isTransitioningToAbout) {
-        const headerHeight = header.offsetHeight;
-        const targetPosition = about.offsetTop - headerHeight;
-        window.scrollTo(0, targetPosition);
-    } else if (isTransitioningToHero) {
-        window.scrollTo(0, 0);
-    }
-});
 
 // Smooth scroll for navigation links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -190,4 +159,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Add scroll event listener with requestAnimationFrame for better performance
 window.addEventListener('scroll', () => {
     requestAnimationFrame(updateHeaderBackground);
-}); 
+});
+
+// Initialize header state
+updateHeaderBackground(); 
