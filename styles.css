@@ -336,7 +336,7 @@ section {
     }
 
     .text-container {
-        min-width: 130px;
+        min-width: 220px;
     }
 
     .and {
@@ -345,6 +345,12 @@ section {
 
     .and i {
         font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .text-container {
+        min-width: 240px;
     }
 }
 
