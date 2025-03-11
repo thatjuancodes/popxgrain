@@ -682,8 +682,14 @@ section {
 @media (max-width: 768px) {
     .scroll-arrow {
         font-size: 1.2rem;
-        bottom: 30px;
+        bottom: 60px;
         opacity: 0.6;
+    }
+}
+
+@media (max-width: 480px) {
+    .scroll-arrow {
+        bottom: 80px;
     }
 }
 
