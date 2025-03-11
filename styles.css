@@ -679,6 +679,14 @@ section {
     opacity: 0.8;
 }
 
+@media (max-width: 768px) {
+    .scroll-arrow {
+        font-size: 1.2rem;
+        bottom: 30px;
+        opacity: 0.6;
+    }
+}
+
 @keyframes bobbing {
     0%, 100% {
         transform: translateX(-50%) translateY(0);
