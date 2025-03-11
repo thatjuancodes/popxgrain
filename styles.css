@@ -288,19 +288,87 @@ section {
     }
 }
 
-/* Menu section */
-.menu {
+/* Services section */
+.services {
     background-color: #f9f9f9;
     position: relative;
     z-index: 2;
     min-height: 100vh;
 }
 
-.menu-grid {
+.services h2 {
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #2a0944;
+    text-align: center;
+}
+
+.services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
-    margin-top: 2rem;
+}
+
+.service-card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-card h3 {
+    color: #2a0944;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.service-description {
+    color: #555;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.service-features {
+    list-style: none;
+    padding: 0;
+}
+
+.service-features li {
+    color: #666;
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.service-features li::before {
+    content: "•";
+    color: #2a0944;
+    position: absolute;
+    left: 0;
+}
+
+/* Responsive design for services */
+@media (max-width: 1024px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .services h2 {
+        font-size: 2rem;
+    }
+    
+    .service-card {
+        padding: 1.5rem;
+    }
 }
 
 /* Contact section */
