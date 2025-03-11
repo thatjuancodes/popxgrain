@@ -8,6 +8,23 @@ const rightWordExposureTime = 2900; // Right words visible for exactly 2.9 secon
 const leftFadeTime = 800; // 0.8s for fade transitions
 const rightFadeTime = 700; // 0.7s for fade transitions
 
+// Hamburger menu functionality
+const hamburger = document.querySelector('.hamburger');
+const navLinks = document.querySelector('.nav-links');
+
+hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('active');
+    navLinks.classList.toggle('active');
+});
+
+// Close mobile menu when clicking a link
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        navLinks.classList.remove('active');
+    });
+});
+
 function updateLeftText() {
     // Remove any existing classes from previous words
     wordsBefore.forEach(word => word.classList.remove('active', 'fade-out'));
