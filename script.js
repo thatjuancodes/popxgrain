@@ -7,6 +7,24 @@ let isScrolling = false;
 // Show navigation by default, but without background
 header.classList.add('nav-visible');
 
+// Add smooth scroll for navigation links
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        const headerHeight = header.offsetHeight;
+        
+        if (targetSection) {
+            const targetPosition = targetSection.offsetTop - headerHeight;
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
+        }
+    });
+});
+
 window.addEventListener('scroll', () => {
     if (!isScrolling) {
         window.requestAnimationFrame(() => {
