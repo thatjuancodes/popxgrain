@@ -13,13 +13,27 @@ body {
 
 /* Header and Navigation */
 .header {
-    background-color: transparent;
-    box-shadow: none;
     padding: 1rem 2rem;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
+    transition: transform 0.3s ease, background-color 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.header.with-background {
+    background-color: rgba(42, 9, 68, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.header.nav-hidden {
+    transform: translateY(-100%);
+}
+
+.header.nav-visible {
+    transform: translateY(0);
 }
 
 .nav {
@@ -34,6 +48,14 @@ body {
     font-size: 1.5rem;
     font-weight: bold;
     color: #ffffff;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.header.with-background .logo {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .nav-links {
@@ -46,6 +68,8 @@ body {
     text-decoration: none;
     color: #ffffff;
     transition: color 0.3s ease;
+    font-weight: 500;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .nav-links a:hover {
@@ -174,6 +198,73 @@ section {
 /* About section */
 .about {
     background-color: #fff;
+    padding: 8rem 2rem;
+    min-height: 100vh;
+}
+
+.about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-content {
+    padding-right: 2rem;
+}
+
+.about h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #2a0944;
+}
+
+.about-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    color: #555;
+}
+
+.about-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature {
+    padding: 1.5rem;
+    background: #f8f8f8;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.feature h3 {
+    color: #2a0944;
+    margin-bottom: 1rem;
+}
+
+.feature p {
+    color: #666;
+}
+
+/* Responsive design for about section */
+@media (max-width: 768px) {
+    .about-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .about-content {
+        padding-right: 0;
+    }
+
+    .about-features {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Menu section */
