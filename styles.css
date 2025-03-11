@@ -1,7 +1,6 @@
 /* Reset and base styles */
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 70px; /* Add padding for fixed header */
 }
 
 * {
@@ -96,7 +95,6 @@ section {
     width: 100%;
     position: relative;
     z-index: 2;
-    scroll-margin-top: 70px; /* Add margin for scroll positioning */
 }
 
 .container {
@@ -223,6 +221,7 @@ section {
     position: relative;
     z-index: 2;
     margin-top: 100vh;
+    scroll-margin-top: 0; /* Reset scroll-margin for about section since it has margin-top */
 }
 
 .about-container {
@@ -294,6 +293,7 @@ section {
     position: relative;
     z-index: 2;
     min-height: 100vh;
+    scroll-margin-top: 100px; /* Consistent with other sections */
 }
 
 .services h2 {
@@ -377,7 +377,8 @@ section {
     position: relative;
     z-index: 2;
     min-height: calc(100vh - 7rem);
-    padding: 8rem 0 4rem; /* Added bottom padding */
+    padding: 8rem 0 4rem;
+    scroll-margin-top: 100px; /* Consistent with other sections */
 }
 
 .contact-grid {
