@@ -376,8 +376,99 @@ section {
     background-color: #fff;
     position: relative;
     z-index: 2;
-    min-height: calc(100vh - 7rem); /* Subtracting footer height */
-    padding-bottom: 0; /* Remove bottom padding to connect with footer */
+    min-height: calc(100vh - 7rem);
+    padding: 8rem 0 4rem; /* Added bottom padding */
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.contact-image {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.contact-form h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #2a0944;
+}
+
+.contact-form p {
+    color: #555;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid #e1e1e1;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #2a0944;
+}
+
+.submit-btn {
+    background-color: #2a0944;
+    color: #fff;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #3a0a5c;
+}
+
+/* Responsive design for contact section */
+@media (max-width: 768px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .contact-image {
+        order: -1;
+    }
+
+    .contact-form h2 {
+        font-size: 2rem;
+    }
 }
 
 /* Footer */
