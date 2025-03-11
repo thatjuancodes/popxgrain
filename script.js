@@ -1,3 +1,63 @@
+// Text animation
+let leftIndex = 0;
+let rightIndex = 0;
+const wordsBefore = document.querySelectorAll('.word-before');
+const wordsAfter = document.querySelectorAll('.word-after');
+const leftWordExposureTime = 3000; // Left words visible for exactly 3 seconds
+const rightWordExposureTime = 2900; // Right words visible for exactly 2.9 seconds
+const leftFadeTime = 800; // 0.8s for fade transitions
+const rightFadeTime = 700; // 0.7s for fade transitions
+
+function updateLeftText() {
+    // Remove any existing classes from previous words
+    wordsBefore.forEach(word => word.classList.remove('active', 'fade-out'));
+
+    // Show new left word
+    requestAnimationFrame(() => {
+        wordsBefore[leftIndex].classList.add('active');
+    });
+
+    // Start fade-out after exposure time
+    setTimeout(() => {
+        wordsBefore[leftIndex].classList.add('fade-out');
+        
+        // Wait for fade-out to complete before showing next word
+        setTimeout(() => {
+            leftIndex = (leftIndex + 1) % wordsBefore.length;
+            updateLeftText();
+        }, leftFadeTime);
+    }, leftWordExposureTime);
+}
+
+function updateRightText() {
+    // Remove any existing classes from previous words
+    wordsAfter.forEach(word => word.classList.remove('active', 'fade-out'));
+
+    // Show new right word
+    requestAnimationFrame(() => {
+        wordsAfter[rightIndex].classList.add('active');
+    });
+
+    // Start fade-out after exposure time
+    setTimeout(() => {
+        wordsAfter[rightIndex].classList.add('fade-out');
+        
+        // Wait for fade-out to complete before showing next word
+        setTimeout(() => {
+            rightIndex = (rightIndex + 1) % wordsAfter.length;
+            updateRightText();
+        }, rightFadeTime);
+    }, rightWordExposureTime);
+}
+
+// Show initial words immediately
+wordsBefore[0].classList.add('active');
+wordsAfter[0].classList.add('active');
+
+// Start the animation cycles after initial words have been shown
+setTimeout(updateLeftText, leftWordExposureTime);
+setTimeout(updateRightText, rightWordExposureTime);
+
 let lastScroll = 0;
 let isAutoScrolling = false;
 let isInHeroSection = true;
