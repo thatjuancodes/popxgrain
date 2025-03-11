@@ -1,6 +1,7 @@
 /* Reset and base styles */
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 70px; /* Add padding for fixed header */
 }
 
 * {
@@ -87,6 +88,7 @@ main {
     margin-top: 0;
     position: relative;
     z-index: 2;
+    overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 section {
@@ -94,6 +96,7 @@ section {
     width: 100%;
     position: relative;
     z-index: 2;
+    scroll-margin-top: 70px; /* Add margin for scroll positioning */
 }
 
 .container {
