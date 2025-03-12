@@ -262,7 +262,11 @@ function isNearSectionBoundary(scrollPosition) {
         scrollPosition > (aboutTop - viewportHeight) * 0.8 && 
         scrollPosition < aboutTop;
 
+    // Special handling for about to hero transition
+    const isNearHeroFromAbout = isInAboutSection && scrollPosition < aboutTop * 0.2;
+
     return {
+        nearHero: isNearHeroFromAbout,
         nearAbout: isNearAboutFromHero || Math.abs(scrollPosition - aboutTop) < threshold,
         nearServices: Math.abs(scrollPosition - servicesTop) < threshold,
         nearContact: Math.abs(scrollPosition - contactTop) < threshold,
@@ -282,8 +286,8 @@ window.addEventListener('wheel', (e) => {
         return;
     }
 
-    // Handle scrolling from about to hero (always active)
-    if (isInAboutSection && e.deltaY < -25 && scrollPosition <= about.offsetTop) {
+    // Handle scrolling from about to hero with less restrictive conditions
+    if (isInAboutSection && e.deltaY < -25) {
         e.preventDefault();
         scrollToHero();
         return;
@@ -300,14 +304,6 @@ window.addEventListener('wheel', (e) => {
         } else if (isInServicesSection && boundaries.isAtServicesBottom) {
             e.preventDefault();
             scrollToContact();
-        }
-    } else if (e.deltaY < -25) { // Scrolling up
-        if (isInContactSection && boundaries.nearContact) {
-            e.preventDefault();
-            scrollToServices();
-        } else if (isInServicesSection && boundaries.nearServices) {
-            e.preventDefault();
-            scrollToAbout();
         }
     }
 }, { passive: false });
@@ -333,8 +329,8 @@ window.addEventListener('touchmove', (e) => {
         return;
     }
 
-    // Handle scrolling from about to hero (always active)
-    if (isInAboutSection && deltaY < -touchThresholdUp && scrollPosition <= about.offsetTop) {
+    // Handle scrolling from about to hero with less restrictive conditions
+    if (isInAboutSection && deltaY < -touchThresholdUp) {
         e.preventDefault();
         scrollToHero();
         return;
@@ -351,14 +347,6 @@ window.addEventListener('touchmove', (e) => {
         } else if (isInServicesSection && boundaries.isAtServicesBottom) {
             e.preventDefault();
             scrollToContact();
-        }
-    } else if (deltaY < -touchThresholdUp) { // Scrolling up
-        if (isInContactSection && boundaries.nearContact) {
-            e.preventDefault();
-            scrollToServices();
-        } else if (isInServicesSection && boundaries.nearServices) {
-            e.preventDefault();
-            scrollToAbout();
         }
     }
 }, { passive: false });
