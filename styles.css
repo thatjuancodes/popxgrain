@@ -166,20 +166,17 @@ section {
     transform-origin: center bottom;
 }
 
-.boat::before {
-    content: '';
+.boat-body {
     position: absolute;
-    bottom: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     background: #ffffff;
     clip-path: polygon(0% 60%, 35% 60%, 50% 20%, 65% 60%, 100% 60%, 85% 100%, 15% 100%);
     transform-origin: bottom center;
+    z-index: 2;
 }
 
-/* Add the fold lines */
-.boat::after {
+.boat-body::after {
     content: '';
     position: absolute;
     width: 100%;
@@ -191,7 +188,159 @@ section {
     background-size: 100% 100%;
     background-repeat: no-repeat;
     pointer-events: none;
-    display: block;
+}
+
+/* Water trail styles */
+.water-trail {
+    position: absolute;
+    height: 2px;
+    bottom: 0;
+    transform-origin: right center;
+    opacity: 0;
+    z-index: 1;
+    animation: waterTrailPosition 60s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Add ripple styles */
+.water-trail.ripple {
+    height: auto;
+    width: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    background: none;
+    animation: rippleEffect 2s ease-out infinite;
+}
+
+@keyframes rippleEffect {
+    0% {
+        width: 10px;
+        height: 10px;
+        opacity: 0.6;
+        transform: translate(0, 0);
+    }
+    100% {
+        width: 30px;
+        height: 30px;
+        opacity: 0;
+        transform: translate(0, -10px);
+    }
+}
+
+.water-trail:nth-child(2) { 
+    width: 20px;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.3) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    animation: 
+        waterTrail 2s linear infinite,
+        waterTrailPosition 60s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 0s, 0s;
+}
+.water-trail:nth-child(3) { 
+    width: 15px;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.12) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    animation: 
+        waterTrail 2s linear infinite,
+        waterTrailPosition 60s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 0.5s, 0s;
+}
+.water-trail:nth-child(4) { 
+    width: 10px;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    animation: 
+        waterTrail 2s linear infinite,
+        waterTrailPosition 60s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 1s, 0s;
+}
+.water-trail:nth-child(5) { 
+    width: 8px;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.07) 50%,
+        rgba(255, 255, 255, 0) 100%);
+    animation: 
+        waterTrail 2s linear infinite,
+        waterTrailPosition 60s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 1.5s, 0s;
+}
+
+@keyframes waterTrail {
+    0% {
+        transform: scaleX(0.2);
+        opacity: 0.3;
+    }
+    100% {
+        transform: scaleX(1.2);
+        opacity: 0;
+    }
+}
+
+@keyframes waterTrailPosition {
+    0% { 
+        right: 60px;
+        left: auto;
+        transform-origin: right center;
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 255, 0.4) 0%,
+            rgba(255, 255, 255, 0.2) 50%,
+            rgba(255, 255, 255, 0) 100%);
+        opacity: 0;
+    }
+    5% {
+        opacity: 1;
+    }
+    35% { 
+        right: 60px;
+        left: auto;
+        transform-origin: right center;
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 100%);
+        opacity: 1;
+    }
+    38% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    52% { 
+        right: auto;
+        left: 60px;
+        transform-origin: left center;
+        background: linear-gradient(-90deg, 
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 100%);
+        opacity: 0;
+    }
+    55% {
+        opacity: 1;
+    }
+    85% { 
+        right: auto;
+        left: 60px;
+        transform-origin: left center;
+        background: linear-gradient(-90deg, 
+            rgba(255, 255, 255, 0.8) 0%,
+            rgba(255, 255, 255, 0.4) 50%,
+            rgba(255, 255, 255, 0) 100%);
+        opacity: 1;
+    }
+    88% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 /* Remove sail styles as paper boat doesn't need them */
@@ -240,16 +389,16 @@ section {
 
 @keyframes boatRocking {
     0%, 100% { 
-        transform: rotate(3deg) translateY(0px);
+        transform: rotate(15deg) translateY(0px);
     }
     25% {
-        transform: rotate(-1deg) translateY(-8px);
+        transform: rotate(-8deg) translateY(-25px);
     }
     50% { 
-        transform: rotate(-3deg) translateY(0px);
+        transform: rotate(-15deg) translateY(0px);
     }
     75% {
-        transform: rotate(1deg) translateY(-8px);
+        transform: rotate(8deg) translateY(-25px);
     }
 }
 
@@ -543,24 +692,109 @@ section {
     .boat {
         width: 60px;
         height: 37.5px;
-        top: calc(35% - 55px);
+        top: calc(35% - 65px);
         animation: 
             boatRocking 6s ease-in-out infinite,
             boatMoving 45s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
-    .boat::before {
-        height: 10px;
+    .water-trail {
+        height: 1.5px;
     }
 
-    .boat::after {
-        height: 17px;
-        width: 2px;
+    @keyframes waterTrailPosition {
+        0% { 
+            right: 40px;
+            left: auto;
+            transform-origin: right center;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0) 100%);
+            opacity: 0;
+        }
+        5% {
+            opacity: 1;
+        }
+        35% { 
+            right: 40px;
+            left: auto;
+            transform-origin: right center;
+            background: linear-gradient(90deg, 
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0) 100%);
+            opacity: 1;
+        }
+        38% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 0;
+        }
+        52% { 
+            right: auto;
+            left: 40px;
+            transform-origin: left center;
+            background: linear-gradient(-90deg, 
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0) 100%);
+            opacity: 0;
+        }
+        55% {
+            opacity: 1;
+        }
+        85% { 
+            right: auto;
+            left: 40px;
+            transform-origin: left center;
+            background: linear-gradient(-90deg, 
+                rgba(255, 255, 255, 0.8) 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                rgba(255, 255, 255, 0) 100%);
+            opacity: 1;
+        }
+        88% {
+            opacity: 0;
+        }
+        100% {
+            opacity: 0;
+        }
     }
 
-    .sail {
-        width: 20px;
-        height: 17px;
+    .water-trail.ripple {
+        width: 15px;
+    }
+
+    @keyframes rippleEffect {
+        0% {
+            width: 8px;
+            height: 8px;
+            opacity: 0.6;
+            transform: translate(0, 0);
+        }
+        100% {
+            width: 24px;
+            height: 24px;
+            opacity: 0;
+            transform: translate(0, -8px);
+        }
+    }
+
+    @keyframes boatRocking {
+        0%, 100% { 
+            transform: rotate(15deg) translateY(0px);
+        }
+        25% {
+            transform: rotate(-8deg) translateY(-20px);
+        }
+        50% { 
+            transform: rotate(-15deg) translateY(0px);
+        }
+        75% {
+            transform: rotate(8deg) translateY(-20px);
+        }
     }
 }
 
