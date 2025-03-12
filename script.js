@@ -119,11 +119,23 @@ function scrollToHero() {
 // Function to update header background
 function updateHeaderBackground() {
     const scrollPosition = window.scrollY;
+    const aboutSection = document.querySelector('.about');
+    const servicesSection = document.querySelector('.services');
+    const aboutTop = aboutSection.offsetTop;
+    const servicesTop = servicesSection.offsetTop;
     
     if (scrollPosition > 50) {
         header.classList.add('with-background');
+        
+        // Remove box shadow in about section, add it for services and contact
+        if (scrollPosition >= aboutTop && scrollPosition < servicesTop) {
+            header.classList.add('no-shadow');
+        } else {
+            header.classList.remove('no-shadow');
+        }
     } else {
         header.classList.remove('with-background');
+        header.classList.remove('no-shadow');
     }
 
     // Update hero section state
@@ -239,4 +251,28 @@ window.addEventListener('scroll', () => {
 });
 
 // Initialize header state
-updateHeaderBackground(); 
+updateHeaderBackground();
+
+// Add intersection observer for feature cards animation
+const featureCards = document.querySelectorAll('.feature');
+const aboutSection = document.querySelector('.about');
+
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.3
+};
+
+const featureObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            // Add fade-in class to all feature cards when about section is visible
+            featureCards.forEach(card => card.classList.add('fade-in'));
+            // Stop observing after animation is triggered
+            featureObserver.unobserve(entry.target);
+        }
+    });
+}, observerOptions);
+
+// Start observing the about section
+featureObserver.observe(aboutSection); 
