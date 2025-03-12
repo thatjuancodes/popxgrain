@@ -157,10 +157,13 @@ section {
     width: 80px;
     height: 50px;
     left: 50%;
-    top: calc(35% - 75px); /* Moved slightly lower */
+    top: calc(35% - 75px);
     transform: translateX(-50%);
     z-index: 1;
-    animation: boatRocking 8s ease-in-out infinite;
+    animation: 
+        boatRocking 6s ease-in-out infinite,
+        boatMoving 60s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    transform-origin: center bottom;
 }
 
 .boat::before {
@@ -227,12 +230,26 @@ section {
     }
 }
 
+@keyframes boatMoving {
+    0% { transform: translateX(-200%) rotate(0deg); }
+    40% { transform: translateX(200%) rotate(0deg); }
+    50% { transform: translateX(200%) rotate(0deg); }
+    90% { transform: translateX(-200%) rotate(0deg); }
+    100% { transform: translateX(-200%) rotate(0deg); }
+}
+
 @keyframes boatRocking {
-    0%, 100% {
-        transform: translateX(-50%) rotate(2deg);
+    0%, 100% { 
+        transform: rotate(3deg) translateY(0px);
     }
-    50% {
-        transform: translateX(-50%) rotate(-2deg);
+    25% {
+        transform: rotate(-1deg) translateY(-8px);
+    }
+    50% { 
+        transform: rotate(-3deg) translateY(0px);
+    }
+    75% {
+        transform: rotate(1deg) translateY(-8px);
     }
 }
 
@@ -526,7 +543,10 @@ section {
     .boat {
         width: 60px;
         height: 37.5px;
-        top: calc(35% - 55px); /* Adjusted for mobile */
+        top: calc(35% - 55px);
+        animation: 
+            boatRocking 6s ease-in-out infinite,
+            boatMoving 45s cubic-bezier(0.4, 0, 0.2, 1) infinite;
     }
 
     .boat::before {
