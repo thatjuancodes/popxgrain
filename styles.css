@@ -113,7 +113,7 @@ section {
 /* Hero section */
 .hero {
     text-align: center;
-    background-color: #2a0944;
+    background: #2a0944;
     padding: 0;
     position: fixed;
     top: 0;
@@ -125,6 +125,66 @@ section {
     flex-direction: column;
     justify-content: center;
     z-index: 1;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 35%;
+    background: #3B5F8D;
+    clip-path: polygon(
+        0 0, 
+        100% 0, 
+        100% 89%, 
+        85% 90.5%,
+        70% 89.5%,
+        55% 90%,
+        40% 89.5%,
+        25% 90%,
+        10% 89.5%,
+        0 90%
+    );
+    animation: waveMotion 8s ease-in-out infinite;
+    z-index: 0;
+}
+
+@keyframes waveMotion {
+    0%, 100% {
+        clip-path: polygon(
+            0 0, 
+            100% 0, 
+            100% 89%, 
+            85% 90.5%,
+            70% 89.5%,
+            55% 90%,
+            40% 89.5%,
+            25% 90%,
+            10% 89.5%,
+            0 90%
+        );
+    }
+    50% {
+        clip-path: polygon(
+            0 0, 
+            100% 0, 
+            100% 90%,
+            85% 89.5%,
+            70% 90.5%,
+            55% 89.5%,
+            40% 90%,
+            25% 89.5%,
+            10% 90%,
+            0 89.5%
+        );
+    }
+}
+
+/* Remove the after pseudo-element since we're using a more complex wave effect */
+.hero::after {
+    display: none;
 }
 
 .hero h1, .hero p {
@@ -142,11 +202,11 @@ section {
         opacity: 0;
     }
     20% {
-        transform: translateY(-20vh) scale(1);
+        transform: translateY(-15vh) scale(1);
         opacity: 0.3;
     }
     100% {
-        transform: translateY(-100vh) scale(1.5);
+        transform: translateY(-35vh) scale(1.2);
         opacity: 0;
     }
 }
@@ -154,11 +214,12 @@ section {
 /* Bubbles container */
 .hero .bubbles {
     position: absolute;
-    top: 0;
+    top: 65%;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 35%;
     overflow: hidden;
+    z-index: 1;
 }
 
 .hero .bubbles span {
@@ -345,6 +406,67 @@ section {
 
     .and i {
         font-size: 1rem;
+    }
+
+    .hero::before {
+        clip-path: polygon(
+            0 0, 
+            100% 0, 
+            100% 89%, 
+            90% 90%,
+            80% 89.5%,
+            60% 90%,
+            40% 89.5%,
+            20% 90%,
+            10% 89.5%,
+            0 90%
+        );
+    }
+
+    @keyframes waveMotion {
+        0%, 100% {
+            clip-path: polygon(
+                0 0, 
+                100% 0, 
+                100% 89%, 
+                90% 90%,
+                80% 89.5%,
+                60% 90%,
+                40% 89.5%,
+                20% 90%,
+                10% 89.5%,
+                0 90%
+            );
+        }
+        50% {
+            clip-path: polygon(
+                0 0, 
+                100% 0, 
+                100% 90%,
+                90% 89.5%,
+                80% 90%,
+                60% 89.5%,
+                40% 90%,
+                20% 89.5%,
+                10% 90%,
+                0 89.5%
+            );
+        }
+    }
+
+    @keyframes bubblePop {
+        0% {
+            transform: translateY(0) scale(0);
+            opacity: 0;
+        }
+        20% {
+            transform: translateY(-10vh) scale(1);
+            opacity: 0.3;
+        }
+        100% {
+            transform: translateY(-35vh) scale(1.2);
+            opacity: 0;
+        }
     }
 }
 
